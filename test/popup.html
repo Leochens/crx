@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8"/>
-	<title>popup</title>
+	<meta charset="utf-8" />
+	<title>主面板</title>
+	<style>
+		.btn{
+			border-radius: 3px;
+			border: none;
+			background-color: lightsalmon;
+			color: #fff;
+			margin: 4px;
+			cursor: pointer;
+		}
+		.btn:hover{
+			background-color: antiquewhite;
+			color: #000;
+		}
+	</style>
 </head>
-<body style="width:500px;min-height:100px;">
-	这里是popup。
-	<script type="text/javascript" src="js/popup.js"></script>
+
+<body style="width:400px;min-height:100px;">
+	<h2 style="margin:2px">i排版Pro插件(iNsert)</h2>
+	<h5 style="margin:2px;opacity: 0.4;">ZHL V0.1</h5>
+	<button class="btn" id="get_audio_upload">提取音频(用户上传)</button>
+	<button class="btn" id="get_audio_qqmusic">提取音频(QQ音乐)</button>
+	<button class="btn" id="get_video_upload">提取视频(用户上传)</button>
+	<!-- <button class="btn" id="get_video_url">提取视频(视频链接)</button> -->
+	<button class="btn" id="show_code_textarea">导入代码</button>
+	<div id="content"></div>
+
+	<div id="import_code_block" style="display:none">
+		<textarea placeholder="请输入来自i排版pro的代码" id="import_code_area" cols="40" rows="20"></textarea>
+		<button class="btn" id="import_code">导入</button>
+	</div>
+	<script type="text/javascript" src="./jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="./popup.js"></script>
 </body>
+
 </html>

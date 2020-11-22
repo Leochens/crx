@@ -1,28 +1,36 @@
 {
 	"manifest_version": 2,
-	"name": "Chrome插件demo",
+	"name": "Z-Nert-i排版Pro谷歌浏览器插件",
 	"version": "1.0",
-	"description": "最简单的Chrome插件demo，需要快速做一个简单的插件时可以基于这个仓库开发",
-	"author": "sxei",
-	"icons":
-	{
+	"description": "使用该插件可以让您便捷的完成提取音视频代码，导入代码到图文等操作。",
+	"author": "ZHL",
+	"icons": {
 		"48": "icon.png",
 		"128": "icon.png"
 	},
-	"browser_action": 
-	{
+	"homepage_url": "http://x.ipaiban.com",
+	"page_action": {
 		"default_icon": "icon.png",
+		"default_title": "Z-Nert-i排版Pro谷歌浏览器插件",
 		"default_popup": "popup.html"
 	},
-	"content_scripts": 
-	[
+	"background": {
+		"scripts": [
+			"./background.js"
+		]
+	},
+	"content_scripts": [
 		{
-			"matches": ["https://www.baidu.com/*"],
-			"js": ["content-script.js"]
+			"matches": [
+				"https://mp.weixin.qq.com/*"
+			],
+			"js": [
+				"./jquery-1.8.3.js",
+				"./content-script.js"
+			]
 		}
 	],
-	"web_accessible_resources": 
-	[
+	"web_accessible_resources": [
 		"inject.js"
 	]
 }
