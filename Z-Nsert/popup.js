@@ -1,7 +1,7 @@
 ﻿console.log('zhl test');
 
 
-
+//test
 $('#get_audio_upload').click(e => {
     console.log(document);
     // 要给content-srcipt 发送消息获得当前页面的dom
@@ -96,12 +96,14 @@ function getCurrentTabId(callback) {
     });
 }
 
-// 向content-script主动发送消息
-function sendMessageToContentScript(message, callback) {
-    getCurrentTabId((tabId) => {
-        chrome.tabs.sendMessage(tabId, message, function (response) {
-            if (callback) callback(response);
-        });
-    });
-}
+// // 向content-script主动发送消息
+// function sendMessageToContentScript(message, callback) {
+//     getCurrentTabId((tabId) => {
+//         chrome.tabs.sendMessage(tabId, message, function (response) {
+//             if (callback) callback(response);
+//         });
+//     });
+// }
+
+
 
