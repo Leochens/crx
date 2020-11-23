@@ -6,7 +6,7 @@ $('#get_audio_upload').click(e => {
     console.log(document);
     // 要给content-srcipt 发送消息获得当前页面的dom
     sendMessageToContentScript({ cmd: 'get_audio_upload' }, function (response) {
-        console.log(response);
+        console.log('1111',response);
         const audios = JSON.parse(response);
         const content = $('#content');
         $('#import_code_block').css("display", 'none');
