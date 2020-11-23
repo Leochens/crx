@@ -22,10 +22,10 @@ $('#get_audio_upload').click(e => {
 });
 
 
-$('#aaaa').click(e => {
-    console.log(document);
+// $('#aaaa').click(e => {
+//     console.log(document);
    
-});
+// });
 
 
 
@@ -96,14 +96,14 @@ function getCurrentTabId(callback) {
     });
 }
 
-// // 向content-script主动发送消息
-// function sendMessageToContentScript(message, callback) {
-//     getCurrentTabId((tabId) => {
-//         chrome.tabs.sendMessage(tabId, message, function (response) {
-//             if (callback) callback(response);
-//         });
-//     });
-// }
+// 向content-script主动发送消息
+function sendMessageToContentScript(message, callback) {
+    getCurrentTabId((tabId) => {
+        chrome.tabs.sendMessage(tabId, message, function (response) {
+            if (callback) callback(response);
+        });
+    });
+}
 
 
 
