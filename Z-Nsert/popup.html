@@ -5,6 +5,40 @@
 	<meta charset="utf-8" />
 	<title>主面板</title>
 	<style>
+		.grid{
+
+		}
+
+		.grid > .row{
+
+		}
+
+		.grid > .row > .item{
+			width: 80px;
+			height: 80px;
+			border: 1px solid #eee;
+			border-right: none;
+			border-bottom: none;
+			text-align: center;
+			cursor: pointer;
+			display: inline-block;
+			margin: 0px;
+			font-size: 0;
+		}
+		.grid > .row > .item:hover{
+			background-color: #eee;
+		}
+		.grid > .row > .item > .title{
+			font-size: 14px;
+			font-weight: bold;
+			color: #333;
+			margin-top: 20px;
+		}
+		.grid > .row > .item > .tip{
+			font-size: 12px;
+			margin-top: 4px;
+			color: #666;
+		}
 		.btn{
 			border-radius: 3px;
 			border: none;
@@ -20,18 +54,49 @@
 	</style>
 </head>
 
-<body style="width:300px;min-height:100px;">
-	<h2 style="margin:2px">i排版Pro插件(iNsert)</h2>
-	<h5 style="margin:2px;opacity: 0.4;">ZHL V0.1</h5>
-	<button class="btn" id="get_audio_upload">提取音频(用户上传)</button>
-	<button class="btn" id="get_audio_qqmusic">提取音频(QQ音乐)</button>
-	<button class="btn" id="get_video_upload">提取视频(用户上传)</button>
-	<!-- <button class="btn" id="get_video_url">提取视频(视频链接)</button> -->
-	<button class="btn" id="show_code_textarea">导入代码</button>
-	<div id="content"></div>
+<body style="width:246px;min-height:100px;font-size: 0px;">
+	<h3 style="margin:2px;font-size: 20px">微信图文工具(iNsert)</h3>
+	<h5 style="margin:2px;opacity: 0.4;font-size: 10px">ZHL V0.3 </h5>
+	<h5 style="font-size: 10px;color: orangered;margin: 2px;">使用前请新建微信图文，若无反应请刷新页面</h5>
+
+	<div class="grid">
+		<div class="row">
+			<div class="item" id="get_audio_upload">
+				<div class="title">提取音频</div>
+				<div class="tip">用户上传</div>
+			</div>
+
+			<div class="item" id="get_audio_qqmusic">
+				<div class="title">提取音频</div>
+				<div class="tip">QQ音乐</div>
+			</div>
+
+			<div class="item" id="get_video_upload" style="border-right: 1px solid #eee;">
+				<div class="title">提取视频</div>
+				<div class="tip">用户上传</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="item" id="get_mimi_id" style="border-bottom: 1px solid #eee;">
+				<div class="title">提取小程序</div>
+				<div class="tip">文字小程序</div>
+			</div>
+			<div class="item" id="show_code_textarea" style="border-bottom: 1px solid #eee;">
+				<div class="title">导入代码</div>
+				<div class="tip">svg代码</div>
+			</div>
+			<div class="item" id="clear_code" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+				<div class="title">清空图文</div>
+				<div class="tip">还原空白图文</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="current" style="font-size:14px;text-align: left;margin: 10px 0;"></div>
+	<div id="content" style="font-size:12px;"></div>
 
 	<div id="import_code_block" style="display:none">
-		<textarea placeholder="请输入来自i排版pro的代码" id="import_code_area" cols="40" rows="20"></textarea>
+		<textarea placeholder="请输入来自i排版pro的代码" id="import_code_area" style="resize:none;width: 240px;height:100px;border: 1px solid #ddd;"></textarea>
 		<button class="btn" id="import_code">导入</button>
 	</div>
 	<script type="text/javascript" src="./jquery-1.8.3.js"></script>

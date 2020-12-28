@@ -1,21 +1,32 @@
 ﻿console.log('zhl test');
 
-
+function init() {
+    const content = $('#content');
+    const current = $('#current');
+    content.empty();
+    current.empty();
+}
 //test
 $('#get_audio_upload').click(e => {
     console.log(document);
     // 要给content-srcipt 发送消息获得当前页面的dom
     sendMessageToContentScript({ cmd: 'get_audio_upload' }, function (response) {
-        console.log('1111',response);
+        console.log('1111', response);
         const audios = JSON.parse(response);
-        const content = $('#content');
         $('#import_code_block').css("display", 'none');
+        const content = $('#content');
+        const current = $('#current');
+        init();
+        current.append($(`
+            <div>提取音频(用户上传):</div>
 
-        content.empty();
-
+        `))
         for (let i in audios) {
             const audio = audios[i];
-            const item = $('<div><div>名称:' + audio.name + '</div><input value="' + audio.code + '" /> </div>')
+            const item = $(`<div>
+            <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
+            <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${audio.code}" /> 
+            </div>`)
             content.append(item)
         }
     });
@@ -24,7 +35,7 @@ $('#get_audio_upload').click(e => {
 
 // $('#aaaa').click(e => {
 //     console.log(document);
-   
+
 // });
 
 
@@ -35,15 +46,24 @@ $('#get_audio_qqmusic').click(e => {
     sendMessageToContentScript({ cmd: 'get_audio_qqmusic' }, function (response) {
         console.log(response);
         const audios = JSON.parse(response);
-        const content = $('#content');
         $('#import_code_block').css("display", 'none');
+        const content = $('#content');
+        const current = $('#current');
+        init();
+        current.append($(`
+            <div>提取音频(QQ音乐):</div>
 
-        content.empty();
+        `))
+
         for (let i in audios) {
             const audio = audios[i];
-            const item = $('<div><div>名称:' + audio.name + '</div><div>代码:<textarea rows="20" cols="30">' + audio.code + '</textarea></div> </div>')
+            const item = $(`<div>
+            <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
+            <textarea style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;height:40px;">${audio.code}</textarea>
+            </div>`)
             content.append(item)
         }
+
     });
 });
 
@@ -54,14 +74,53 @@ $('#get_video_upload').click(e => {
     sendMessageToContentScript({ cmd: 'get_video_upload' }, function (response) {
         console.log(response);
         const videos = JSON.parse(response);
-        const content = $('#content');
         $('#import_code_block').css("display", 'none');
-
-        content.empty();
+        const content = $('#content');
+        const current = $('#current');
+        init();
+        current.append($(`
+            <div>提取视频(用户上传):</div>
+        `))
         for (let i in videos) {
             const video = videos[i];
-            const item = $(`<div><div><input value="${video.code}" /></div> </div>`)
+            const c = parseInt(i + 1);
+            const item = $(`<div>
+            <div>编号:${c},请复制完整下方代码↓</div>
+            <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;" value="${video.code}">
+            </div>`)
             content.append(item)
+        }
+
+    });
+});
+
+
+$('#get_mimi_id').click(e => {
+    console.log(document);
+    // 要给content-srcipt 发送消息获得当前页面的dom
+    sendMessageToContentScript({ cmd: 'get_mimi_id' }, function (response) {
+        console.log(response);
+        const minis = JSON.parse(response);
+        $('#import_code_block').css("display", 'none');
+        const content = $('#content');
+        const current = $('#current');
+        init();
+        current.append($(`
+            <div>提取小程序(文字形式):</div>
+        `))
+
+        for (let i in minis) {
+            const mini = minis[i];
+
+
+            const item = $(`<div>
+            <div>名称:<span style="color:orangered">${mini.name}</span> | 请复制完整下方代码↓</div>
+            appid:
+            <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${mini.appid}" /> 
+            path:<input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${mini.path}" /> 
+            </div>`)
+            content.append(item)
+
         }
     });
 });

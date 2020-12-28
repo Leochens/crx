@@ -19,9 +19,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			// 获取到的音频节点信息
 			const audios = body.getElementsByClassName("js_editor_audio")
 			console.log(audios);
+			if (!audios.length) return alert("未发现用户上传音乐!");
+
 			const _audios = [];
 			for (let i = 0; i < audios.length; i++) {
 				const item = audios[i]
+
+				if (!item) return alert("未发现用户上传音乐!");
 				const code = item.getAttribute('voice_encode_fileid');
 				const name = item.getAttribute('name');
 				console.log(name, code);
@@ -36,10 +40,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			// 获取到的音频节点信息
 			const audios = body.getElementsByClassName("wx-edui-media-wrp")
 			console.log(audios);
+			if (!audios.length) return alert("未发现QQ音乐!");
+
 			const _audios = [];
 			for (let i = 0; i < audios.length; i++) {
 				const item = audios[i]
-				const name = item.getElementsByClassName('js_editor_qqmusic')[0].getAttribute('music_name');
+				const code = item.getElementsByClassName('js_editor_qqmusic')[0];
+				if (!code) return alert("未发现QQ音乐!");
+				const name = code.getAttribute('music_name');
 				_audios.push({ name, code: item.innerHTML });
 			}
 			console.log(_audios);
@@ -48,18 +56,41 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 		}
 		case 'get_video_upload': {
 			const body = getBody();
-			// 获取到的音频节点信息
+
 			const videoFrames = body.getElementsByClassName("video_iframe");
+			if (!videoFrames.length) return alert("未发现用户上传视频!");
 
 			const _videos = [];
 			for (let i = 0; i < videoFrames.length; i++) {
 				const item = videoFrames[i];
+				if (!item) return alert("未发现用户上传视频!");
 				const code = item.getAttribute('data-mpvid');
 				const cover = item.getAttribute('data-cover');
 				_videos.push({ cover, code });
 			}
 			console.log(_videos);
 			sendResponse(JSON.stringify(_videos));
+			break;
+		}
+		case 'get_mimi_id': {
+			const body = getBody();
+			// 获取到的音频节点信息
+			const minis = body.getElementsByClassName("weapp_text_link");
+			if (!minis.length) return alert("未发现文字小程序!");
+
+			console.log(minis);
+			const _minis = [];
+			for (let i = 0; i < minis.length; i++) {
+				const item = minis[i];
+				console.log(item);
+				if (!item) return alert("未发现文字小程序!!");
+				const appid = item.getAttribute('data-miniprogram-appid');
+				const path = item.getAttribute('data-miniprogram-path');
+				const name = item.getAttribute("data-miniprogram-nickname");
+				_minis.push({ appid, path, name });
+			}
+			console.log(_minis);
+			sendResponse(JSON.stringify(_minis));
 			break;
 		}
 
