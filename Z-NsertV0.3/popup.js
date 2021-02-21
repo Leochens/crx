@@ -127,7 +127,8 @@ $('#get_mimi_id').click(e => {
 
 $('#show_code_textarea').click(e => {
     const content = $('#content');
-    content.empty();
+    init();
+
     $('#import_code_block').css("display", 'block');
 })
 $('#import_code').click(e => {
@@ -142,6 +143,17 @@ $('#import_code').click(e => {
     sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
         // $('import_code_block').css("display", 'none');
         alert("导入成功")
+    });
+});
+$('#clear_code').click(e => {
+    // console.log(document);
+    // 要给content-srcipt 发送消息获得当前页面的dom
+    init();
+
+    const value = '';
+    sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
+        // $('import_code_block').css("display", 'none');
+        alert("清空成功")
     });
 });
 // $('#update_font_size').click(() => {
