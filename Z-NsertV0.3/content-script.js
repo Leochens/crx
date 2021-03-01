@@ -56,23 +56,63 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_audios));
       break;
     }
-    case 'get_audio_qqmusic': {
+    // case 'get_audio_qqmusic': {
+    //   const body = getBody();
+    //   // 获取到的音频节点信息
+    //   const audios = body.getElementsByClassName("wx-edui-media-wrp")
+    //   console.log(audios);
+    //   if (!audios.length) return alertMsg("未发现QQ音乐!");
+
+    //   const _audios = [];
+    //   for (let i = 0; i < audios.length; i++) {
+    //     const item = audios[i]
+    //     const code = item.getElementsByClassName('js_editor_qqmusic')[0];
+    //     if (!code) return alertMsg("未发现QQ音乐!");
+    //     const name = code.getAttribute('music_name');
+    //     _audios.push({ name, code: item.innerHTML });
+    //   }
+    //   console.log(_audios);
+    //   sendResponse(JSON.stringify(_audios));
+    //   break;
+    // }
+    case 'get_open_account': {
       const body = getBody();
       // 获取到的音频节点信息
-      const audios = body.getElementsByClassName("wx-edui-media-wrp")
-      console.log(audios);
-      if (!audios.length) return alertMsg("未发现QQ音乐!");
+      const accs = body.getElementsByTagName("mpprofile")
+      console.log(accs);
+      if (!accs.length) return alertMsg("未发现公众号!");
 
-      const _audios = [];
-      for (let i = 0; i < audios.length; i++) {
-        const item = audios[i]
-        const code = item.getElementsByClassName('js_editor_qqmusic')[0];
-        if (!code) return alertMsg("未发现QQ音乐!");
-        const name = code.getAttribute('music_name');
-        _audios.push({ name, code: item.innerHTML });
+      const _accs = [];
+      for (let i = 0; i < accs.length; i++) {
+        const item = accs[i]
+        const code = item.getAttribute('data-id');
+        if (!code) return alertMsg("未发现公众号!");
+        const name = item.getAttribute('data-nickname');
+        _accs.push({ name, code });
       }
-      console.log(_audios);
-      sendResponse(JSON.stringify(_audios));
+      console.log(_accs);
+      sendResponse(JSON.stringify(_accs));
+      break;
+    }
+    case 'get_video_account': {
+      const body = getBody();
+      // 获取到的音频节点信息
+      const accs = body.getElementsByClassName("channels_iframe_wrp");
+      console.log(accs);
+      if (!accs.length) return alertMsg("未发现视频号!");
+
+      const _accs = [];
+      for (let i = 0; i < accs.length; i++) {
+        const item = accs[i]
+        const code = item.outerHTML;
+        console.log(code);
+
+        if (!code) return alertMsg("未发现视频号!");
+        const name = item.children[0].getAttribute('data-desc');
+        _accs.push({ name, code });
+      }
+      console.log(_accs);
+      sendResponse(JSON.stringify(_accs));
       break;
     }
     case 'get_video_upload': {
@@ -117,7 +157,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     case 'import_code': {
       const body = getBody();
-      // 获取到的音频节点信息
+
       const code = request.code;
       console.log(code);
 
@@ -125,6 +165,37 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
       sendResponse(true);
       alertMsg("操作成功!", 'success');
+      break;
+    }
+
+    case 'import_code_append': {
+      const body = getBody();
+
+      const code = request.code;
+      console.log(code);
+
+      body.innerHTML = body.innerHTML + code;
+
+      sendResponse(true);
+      alertMsg("操作成功!", 'success');
+      break;
+    }
+    case 'import_code_insert': {
+      const body = getBody();
+
+      const code = request.code;
+      console.log(code);
+      const html = body.innerHTML;
+      const hasFlag = html.indexOf("[[CODE]]");
+      if (hasFlag != -1) {
+        body.innerHTML = html.replace("[[CODE]]", code);
+        sendResponse(true);
+        alertMsg("操作成功!", 'success');
+      } else {
+        sendResponse(false);
+        alertMsg("没有找到标志[[CODE]]!");
+      }
+
       break;
     }
 
