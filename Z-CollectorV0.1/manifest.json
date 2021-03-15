@@ -1,0 +1,41 @@
+{
+  "manifest_version": 2,
+  "name": "iPaiban Pro 采集器",
+  "version": "1.0",
+  "description": "使用该插件可以让您便捷的采集文章",
+  "author": "ZHL",
+  "icons": {
+    "48": "clctor.png",
+    "128": "clctor.png"
+  },
+  "homepage_url": "http://x.ipaiban.com",
+  "browser_action": {
+    "default_icon": "clctor.png",
+    "default_title": "iPaiban Pro 采集器",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "notifications"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mp.weixin.qq.com/s/*"
+      ],
+      "js": [
+        "./contentJs/jquery-1.8.3.js",
+        "./contentJs/index.js"
+      ],
+      "run_at": "document_idle",
+      "css": [
+        "./contentJs/index.css"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "inject.js"
+  ]
+}
