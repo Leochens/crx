@@ -3,14 +3,14 @@
 });
 
 
-function getBody () {
+function getBody() {
   console.log(document)
   const editor = document.getElementById('ueditor_0');
   const body = editor.contentWindow.document.getElementsByTagName('body')[0];
   return body;
 }
 var tipCount = 0;
-function alertMsg (msg, type) {
+function alertMsg(msg, type) {
   msg = msg || '';
   var ele = document.createElement('div');
   ele.className = 'chrome-plugin-simple-tip slideInLeft';
@@ -56,25 +56,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_audios));
       break;
     }
-    // case 'get_audio_qqmusic': {
-    //   const body = getBody();
-    //   // 获取到的音频节点信息
-    //   const audios = body.getElementsByClassName("wx-edui-media-wrp")
-    //   console.log(audios);
-    //   if (!audios.length) return alertMsg("未发现QQ音乐!");
+    case 'get_audio_qqmusic': {
+      const body = getBody();
+      // 获取到的音频节点信息
+      const audios = body.getElementsByClassName("wx-edui-media-wrp")
+      console.log(audios);
+      if (!audios.length) return alertMsg("未发现QQ音乐!");
 
-    //   const _audios = [];
-    //   for (let i = 0; i < audios.length; i++) {
-    //     const item = audios[i]
-    //     const code = item.getElementsByClassName('js_editor_qqmusic')[0];
-    //     if (!code) return alertMsg("未发现QQ音乐!");
-    //     const name = code.getAttribute('music_name');
-    //     _audios.push({ name, code: item.innerHTML });
-    //   }
-    //   console.log(_audios);
-    //   sendResponse(JSON.stringify(_audios));
-    //   break;
-    // }
+      const _audios = [];
+      for (let i = 0; i < audios.length; i++) {
+        const item = audios[i]
+        const code = item.getElementsByClassName('js_editor_qqmusic')[0];
+        if (!code) return alertMsg("未发现QQ音乐!");
+        const name = code.getAttribute('music_name');
+        _audios.push({ name, code: item.innerHTML });
+      }
+      console.log(_audios);
+      sendResponse(JSON.stringify(_audios));
+      break;
+    }
     case 'get_open_account': {
       const body = getBody();
       // 获取到的音频节点信息
@@ -186,15 +186,28 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       const code = request.code;
       console.log(code);
       const html = body.innerHTML;
-      const hasFlag = html.indexOf("[[CODE]]");
-      if (hasFlag != -1) {
-        body.innerHTML = html.replace("[[CODE]]", code);
-        sendResponse(true);
+
+
+
+      const match = /<p>({code}[\s\S]*?)<\/p>/g
+      console.log(html.match(match));
+      if (html.match(match)) {
+        body.innerHTML = html.replace(match, code);
         alertMsg("操作成功!", 'success');
       } else {
-        sendResponse(false);
-        alertMsg("没有找到标志[[CODE]]!");
+        let hasFlag = html.indexOf("{code}");
+        if (hasFlag != -1) {
+          body.innerHTML = html.replace("{code}", code);
+          sendResponse(true);
+          alertMsg("操作成功!", 'success');
+        } else {
+          sendResponse(false);
+          alertMsg("没有找到标志{code}!");
+        }
+
       }
+
+
 
       break;
     }
@@ -210,7 +223,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 // 主动发送消息给后台
 // 要演示此功能，请打开控制台主动执行sendMessageToBackground()
-function sendMessageToBackground (message) {
+function sendMessageToBackground(message) {
   chrome.runtime.sendMessage({ greeting: message || '你好，我是content-script呀，我主动发消息给后台！' }, function (response) {
     tip('收到来自后台的回复：' + response);
   });

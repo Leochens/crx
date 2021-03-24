@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "iPaiban Pro 小助手",
-  "version": "1.0",
+  "version": "1.1",
   "description": "使用该插件可以让您便捷的完成提取音视频代码，导入代码到图文等操作。",
   "author": "ZHL",
   "icons": {

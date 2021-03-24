@@ -61,46 +61,56 @@
 </head>
 
 <body style="width:246px;min-height:100px;font-size: 0px;">
-  <h3 style="margin:2px;font-size: 20px">iPaiban Pro 小助手</h3>
+  <h3 style="margin:2px;font-size: 20px">iPaiban Pro 小助手v1.1</h3>
   <h5 style="font-size: 10px;color: orangered;margin: 2px;">使用前请新建微信图文，若无反应请刷新页面</h5>
 
   <div class="grid">
     <div class="row">
-      <div class="item" id="clear_code">
-        <div class="title">清空图文</div>
-        <div class="tip">还原空白图文</div>
-      </div>
+
       <div class="item" id="get_audio_upload">
         <div class="title">提取音频</div>
-        <div class="tip">用户上传</div>
+        <div class="tip">本地上传</div>
       </div>
 
-      <!-- <div class="item" id="get_audio_qqmusic" style="border-right: 1px solid #eee;">
-				<div class="title">提取音频</div>
-				<div class="tip">QQ音乐</div>
-			</div> -->
 
-      <div class="item" id="get_open_account" style="border-right: 1px solid #eee;">
-        <div class="title">提取公众号</div>
-        <div class="tip">公众号id</div>
+      <div class="item" id="get_audio_qqmusic" style="border-right: 1px solid #eee;">
+        <div class="title">提取音频</div>
+        <div class="tip">QQ音乐</div>
       </div>
+
+      <div class="item" id="get_video_upload" style="border-right: 1px solid #eee;">
+        <div class="title">提取视频</div>
+        <div class="tip">本地上传</div>
+      </div>
+
+
 
     </div>
     <div class="row">
-      <div class="item" id="get_video_account" style="border-bottom: 1px solid #eee;">
-        <div class="title">提取视频号</div>
-        <div class="tip">视频号id</div>
-      </div>
+
       <div class="item" id="get_mimi_id" style="border-bottom: 1px solid #eee;">
         <div class="title">提取小程序</div>
         <div class="tip">文字小程序</div>
       </div>
-
-      <div class="item" id="get_video_upload" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
-        <div class="title">提取视频</div>
-        <div class="tip">用户上传</div>
+      <div class="item" id="get_open_account" style="border-bottom: 1px solid #eee;">
+        <div class="title">提取公众号</div>
+        <div class="tip">公众号id</div>
       </div>
 
+      <div class="item" id="get_video_account" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+        <div class="title">提取视频号</div>
+        <div class="tip">视频号id</div>
+      </div>
+
+
+    </div>
+
+
+    <div class="row">
+      <div class="item big" id="clear_code" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
+        <div class="title">清空图文</div>
+        <div class="tip">清空编辑区</div>
+      </div>
     </div>
     <div class="row">
       <div class="item big" id="show_code_textarea" style="border-bottom: 1px solid #eee;border-right: 1px solid #eee;">
@@ -123,7 +133,7 @@
   <div id="content" style="font-size:12px;"></div>
 
   <div id="import_code_block" style="display:none">
-    <textarea placeholder="请输入来自i排版pro的代码(局部插入时请先在图文相应位置放置标志:[[CODE]])" id="import_code_area"
+    <textarea placeholder="请输入来自iPaiban Pro的代码(注：局部插入时请先在图文中放置标志{code}，导入代码后会替换掉） " id="import_code_area"
       style="resize:none;width: 240px;height:100px;border: 1px solid #ddd;"></textarea>
     <button class="btn" id="import_code">清空导入</button>
     <button class="btn" id="import_code_append">尾部导入</button>

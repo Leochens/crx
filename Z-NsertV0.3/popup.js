@@ -40,32 +40,32 @@ $('#get_audio_upload').click(e => {
 
 
 
-// $('#get_audio_qqmusic').click(e => {
-//   console.log(document);
-//   // 要给content-srcipt 发送消息获得当前页面的dom
-//   sendMessageToContentScript({ cmd: 'get_audio_qqmusic' }, function (response) {
-//     console.log(response);
-//     const audios = JSON.parse(response);
-//     $('#import_code_block').css("display", 'none');
-//     const content = $('#content');
-//     const current = $('#current');
-//     init();
-//     current.append($(`
-//             <div>提取音频(QQ音乐):</div>
+$('#get_audio_qqmusic').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({ cmd: 'get_audio_qqmusic' }, function (response) {
+    console.log(response);
+    const audios = JSON.parse(response);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取音频(QQ音乐):</div>
 
-//         `))
+        `))
 
-//     for (let i in audios) {
-//       const audio = audios[i];
-//       const item = $(`<div>
-//             <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
-//             <textarea style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;height:40px;">${audio.code}</textarea>
-//             </div>`)
-//       content.append(item)
-//     }
+    for (let i in audios) {
+      const audio = audios[i];
+      const item = $(`<div>
+            <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
+            <textarea style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;height:40px;">${audio.code}</textarea>
+            </div>`)
+      content.append(item)
+    }
 
-//   });
-// });
+  });
+});
 $('#get_open_account').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
