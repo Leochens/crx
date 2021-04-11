@@ -3,14 +3,14 @@
 });
 
 
-function getBody () {
+function getBody() {
   console.log(document)
   const editor = document.getElementById('ueditor_0');
   const body = editor.contentWindow.document.getElementsByTagName('body')[0];
   return body;
 }
 var tipCount = 0;
-function alertMsg (msg, type) {
+function alertMsg(msg, type) {
   msg = msg || '';
   var ele = document.createElement('div');
   ele.className = 'chrome-plugin-simple-tip slideInLeft';
@@ -56,6 +56,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_audios));
       break;
     }
+
+
+
     case 'get_audio_qqmusic': {
       const body = getBody();
       // 获取到的音频节点信息
@@ -133,6 +136,30 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_videos));
       break;
     }
+
+    case 'get_video_tx': {
+      const body = getBody();
+
+      const videoFrames = document.getElementById("ueditor_0").contentWindow.document.getElementsByClassName("wx_video_iframe");
+
+      if (!videoFrames.length) return alertMsg("未发现腾讯视频!");
+
+      const _videos = [];
+      for (let i = 0; i < videoFrames.length; i++) {
+        const item = videoFrames[i];
+        if (!item) return alertMsg("未发现腾讯视频!");
+        const code = item.getAttribute('src');
+        const match = /(?<=vid=)\S+/
+        const res = match.exec(code);
+        if (!res) return alertMsg("未发现腾讯视频或视频格式错误!");
+        _videos.push({ code: res[0] });
+      }
+      console.log(_videos);
+      sendResponse(JSON.stringify(_videos));
+      break;
+    }
+
+
     case 'get_mimi_id': {
       const body = getBody();
       // 获取到的音频节点信息
@@ -186,15 +213,28 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       const code = request.code;
       console.log(code);
       const html = body.innerHTML;
-      const hasFlag = html.indexOf("{code}");
-      if (hasFlag != -1) {
-        body.innerHTML = html.replace("{code}", code);
-        sendResponse(true);
+
+
+
+      const match = /<p>({code}[\s\S]*?)<\/p>/g
+      console.log(html.match(match));
+      if (html.match(match)) {
+        body.innerHTML = html.replace(match, code);
         alertMsg("操作成功!", 'success');
       } else {
-        sendResponse(false);
-        alertMsg("没有找到标志{code}!");
+        let hasFlag = html.indexOf("{code}");
+        if (hasFlag != -1) {
+          body.innerHTML = html.replace("{code}", code);
+          sendResponse(true);
+          alertMsg("操作成功!", 'success');
+        } else {
+          sendResponse(false);
+          alertMsg("没有找到标志{code}!");
+        }
+
       }
+
+
 
       break;
     }
@@ -210,7 +250,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 // 主动发送消息给后台
 // 要演示此功能，请打开控制台主动执行sendMessageToBackground()
-function sendMessageToBackground (message) {
+function sendMessageToBackground(message) {
   chrome.runtime.sendMessage({ greeting: message || '你好，我是content-script呀，我主动发消息给后台！' }, function (response) {
     tip('收到来自后台的回复：' + response);
   });
