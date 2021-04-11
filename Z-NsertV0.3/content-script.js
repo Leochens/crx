@@ -56,6 +56,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_audios));
       break;
     }
+
+
+
     case 'get_audio_qqmusic': {
       const body = getBody();
       // 获取到的音频节点信息
@@ -133,6 +136,30 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_videos));
       break;
     }
+
+    case 'get_video_tx': {
+      const body = getBody();
+
+      const videoFrames = document.getElementById("ueditor_0").contentWindow.document.getElementsByClassName("wx_video_iframe");
+
+      if (!videoFrames.length) return alertMsg("未发现腾讯视频!");
+
+      const _videos = [];
+      for (let i = 0; i < videoFrames.length; i++) {
+        const item = videoFrames[i];
+        if (!item) return alertMsg("未发现腾讯视频!");
+        const code = item.getAttribute('src');
+        const match = /(?<=vid=)\S+/
+        const res = match.exec(code);
+        if (!res) return alertMsg("未发现腾讯视频或视频格式错误!");
+        _videos.push({ code: res[0] });
+      }
+      console.log(_videos);
+      sendResponse(JSON.stringify(_videos));
+      break;
+    }
+
+
     case 'get_mimi_id': {
       const body = getBody();
       // 获取到的音频节点信息

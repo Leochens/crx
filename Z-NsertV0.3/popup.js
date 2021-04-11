@@ -1,6 +1,6 @@
 ﻿console.log('zhl test');
 
-function init () {
+function init() {
   const content = $('#content');
   const current = $('#current');
   content.empty();
@@ -151,6 +151,33 @@ $('#get_video_upload').click(e => {
   });
 });
 
+$('#get_video_tx').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({ cmd: 'get_video_tx' }, function (response) {
+    console.log(response);
+    const videos = JSON.parse(response);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取视频(腾讯视频):</div>
+        `))
+    for (let i in videos) {
+      const video = videos[i];
+      const c = parseInt(i) + 1;
+      const item = $(`<div>
+            <div>编号:${c},请复制完整下方代码↓</div>
+            <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;" value="${video.code}">
+            </div>`)
+      content.append(item)
+    }
+
+  });
+});
+
+
 
 $('#get_mimi_id').click(e => {
   console.log(document);
@@ -278,14 +305,14 @@ $('#append_code').click(e => {
 // });
 
 // 获取当前选项卡ID
-function getCurrentTabId (callback) {
+function getCurrentTabId(callback) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     if (callback) callback(tabs.length ? tabs[0].id : null);
   });
 }
 
 // 向content-script主动发送消息
-function sendMessageToContentScript (message, callback) {
+function sendMessageToContentScript(message, callback) {
   getCurrentTabId((tabId) => {
     chrome.tabs.sendMessage(tabId, message, function (response) {
       if (callback) callback(response);
