@@ -34,9 +34,16 @@ function createPage () {
         <div class="tip">采集图文代码到剪贴板</div>
       </div>
     </div>
+    <div class="row">
+    <div class="item big" style="border: 1px solid #eee;">
+      <div class="title">转换图文到可用格式</div>
+      <div class="tip"> <a href="http://x.ipaiban.com/tools/translinks" target="_blank" >点我去转换</a></div>
+    </div>
+  </div>
   </div>
   </h3>`)
   page.append(h3)
+  console.log($('body'))
   $('body').append(page)
   $('#get_code').click(e => {
     const html = document.getElementById('js_content').innerHTML
@@ -61,9 +68,7 @@ function createPage () {
   //拖拽
   // drag(cj_move_h3)
 }
-
 createPage()
-
 // //拖拽
 // function drag (ele) {
 //   let oldX, oldY, newX, newY
@@ -88,3 +93,6 @@ createPage()
 //     }
 //   }
 // }
+
+
+
