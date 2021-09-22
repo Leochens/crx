@@ -49,36 +49,53 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (!item) return alertMsg("未发现用户上传音乐!");
         const code = item.getAttribute('voice_encode_fileid');
         const name = item.getAttribute('name');
+        const html = item.outerHTML;
         console.log(name, code);
-        _audios.push({ name, code });
+        _audios.push({ name, code,html });
       }
       console.log(_audios);
       sendResponse(JSON.stringify(_audios));
       break;
     }
 
-
-
     case 'get_audio_qqmusic': {
       const body = getBody();
       // 获取到的音频节点信息
-      const audios = body.getElementsByClassName("wx-edui-media-wrp")
+      const audios = body.getElementsByClassName("js_editor_qqmusic qqmusic_iframe js_uneditable custom_select_card")
       console.log(audios);
       if (!audios.length) return alertMsg("未发现QQ音乐!");
 
       const _audios = [];
       for (let i = 0; i < audios.length; i++) {
         const item = audios[i]
-        const code = item.getElementsByClassName('js_editor_qqmusic')[0];
-        if (!code) return alertMsg("未发现QQ音乐!");
-        const name = code.getAttribute('music_name');
-        _audios.push({ name, code: item.innerHTML });
+        const code = item.getAttribute('mid');
+        const name = item.getAttribute('music_name');
+        const html = item.outerHTML;
+        _audios.push({ name, code,html });
       }
       console.log(_audios);
       sendResponse(JSON.stringify(_audios));
       break;
     }
-    case 'get_open_account': {
+    case 'get_open_account_id': {
+      const body = getBody();
+      const accs = body.getElementsByTagName("mpprofile")
+      console.log(accs);
+      if (!accs.length) return alertMsg("未发现公众号!");
+
+      const _accs = [];
+      for (let i = 0; i < accs.length; i++) {
+        const item = accs[i]
+        const code = item.getAttribute('data-id');
+        if (!code) return alertMsg("未发现公众号!");
+        const name = item.getAttribute('data-nickname');
+        _accs.push({ name, code });
+      }
+      console.log(_accs);
+      sendResponse(JSON.stringify(_accs));
+      break;
+    }
+    case 'get_open_account_code': {
       const body = getBody();
       // 获取到的音频节点信息
       const accs = body.getElementsByTagName("mpprofile")
@@ -88,7 +105,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       const _accs = [];
       for (let i = 0; i < accs.length; i++) {
         const item = accs[i]
-        const code = item.getAttribute('data-id');
+        const code = item.outerHTML;
         if (!code) return alertMsg("未发现公众号!");
         const name = item.getAttribute('data-nickname');
         _accs.push({ name, code });
@@ -179,6 +196,49 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       }
       console.log(_minis);
       sendResponse(JSON.stringify(_minis));
+      break;
+    }
+    case 'get_mimi_card': {
+      // 获取到的音频节点信息
+      const minis = document.getElementById("ueditor_0").contentWindow.document.getElementsByClassName("weapp_app_iframe");
+
+      console.log(minis);
+      if (!minis.length) return alertMsg("未发现卡片小程序!");
+
+      const _minis = [];
+      for (let i = 0; i < minis.length; i++) {
+        const item = minis[i];
+        console.log(item);
+        if (!item) return alertMsg("未发现文字小程序!");
+        const appid = item.getAttribute('data-miniprogram-appid');
+        const path = item.getAttribute('data-miniprogram-path');
+        const name = item.getAttribute("data-miniprogram-nickname");
+        const code = item.outerHTML;
+        _minis.push({ appid, path, name,code });
+      }
+      console.log(_minis);
+      sendResponse(JSON.stringify(_minis));
+      break;
+    }
+
+    case 'get_location': {
+      const body = getBody();
+      // 获取到的地理位置信息
+      const items = body.getElementsByClassName("js_poi_entry ct_geography_loc_tip");
+      if (!items.length) return alertMsg("未发现文字地理位置!");
+
+      console.log(items);
+      const _items = [];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        console.log(item);
+        if (!item) return alertMsg("未发现文字地理位置!");
+        const name = item.text;
+        const code = item.outerHTML;
+        _items.push({ code, name });
+      }
+      console.log(_items);
+      sendResponse(JSON.stringify(_items));
       break;
     }
 

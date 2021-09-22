@@ -25,7 +25,8 @@ $('#get_audio_upload').click(e => {
       const audio = audios[i];
       const item = $(`<div>
             <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
-            <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${audio.code}" /> 
+            ID:<input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${audio.code}" /> 
+            代码:<textarea rows="6" style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" > ${audio.html}</textarea>
             </div>`)
       content.append(item)
     }
@@ -52,24 +53,24 @@ $('#get_audio_qqmusic').click(e => {
     init();
     current.append($(`
             <div>提取音频(QQ音乐):</div>
-
         `))
 
     for (let i in audios) {
       const audio = audios[i];
       const item = $(`<div>
             <div>名称:<span style="color:orangered">${audio.name}</span> | 请复制完整下方代码↓</div>
-            <textarea style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;height:40px;">${audio.code}</textarea>
+            ID:<input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px" value="${audio.code}" /> 
+            代码:<textarea style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;height:40px;">${audio.html}</textarea>
             </div>`)
       content.append(item)
     }
 
   });
 });
-$('#get_open_account').click(e => {
+$('#get_open_account_id').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_open_account' }, function (response) {
+  sendMessageToContentScript({ cmd: 'get_open_account_id' }, function (response) {
     console.log(response);
     const acc = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -87,6 +88,35 @@ $('#get_open_account').click(e => {
             <div>名称:<span style="color:orangered">${ac.name}</span> | 请复制完整下方代码↓</div>
 
             <input style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;" value="${ac.code}">
+
+            </div>`)
+      content.append(item)
+    }
+
+  });
+});
+
+$('#get_open_account_code').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({ cmd: 'get_open_account_code' }, function (response) {
+    console.log(response);
+    const acc = JSON.parse(response);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取公众号(公众号代码):</div>
+
+        `))
+
+    for (let i in acc) {
+      const ac = acc[i];
+      const item = $(`<div>
+            <div>名称:<span style="color:orangered">${ac.name}</span> | 请复制完整下方代码↓</div>
+
+            <textarea rows="6" style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px;">${ac.code}</textarea>
 
             </div>`)
       content.append(item)
@@ -208,6 +238,62 @@ $('#get_mimi_id').click(e => {
     }
   });
 });
+
+$('#get_mimi_card').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({ cmd: 'get_mimi_card' }, function (response) {
+    console.log(response);
+    const minis = JSON.parse(response);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取小程序(卡片形式):</div>
+        `))
+
+    for (let i in minis) {
+      const mini = minis[i];
+
+
+      const item = $(`<div>
+            <div>名称:<span style="color:orangered">${mini.name}</span> | 请复制完整下方代码↓</div>
+            代码:<textarea rows="6" style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px"  >${mini.code}</textarea> 
+            </div>`)
+      content.append(item)
+
+    }
+  });
+});
+
+$('#get_location').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({ cmd: 'get_location' }, function (response) {
+    console.log(response);
+    const items = JSON.parse(response);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取地理位置(文字形式):</div>
+        `))
+
+    for (let i in items) {
+      const location = items[i];
+      const item = $(`<div>
+            <div>名称:<span style="color:orangered">${ location.name}</span> | 请复制完整下方代码↓</div>
+            代码:<textarea rows="6" style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px"  >${location.code}</textarea> 
+            </div>`)
+      content.append(item)
+
+    }
+  });
+});
+
+
 
 $('#show_code_textarea').click(e => {
   const content = $('#content');
