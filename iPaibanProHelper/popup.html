@@ -20,6 +20,8 @@
       display: inline-block;
       margin: 0px;
       font-size: 0;
+      opacity: 0.8;
+
     }
 
     .grid>.row>.item.big {
@@ -28,7 +30,10 @@
     }
 
     .grid>.row>.item:hover {
-      background-color: #eee;
+      /* background-color: #eee; */
+      opacity: 1;
+      text-decoration: underline;
+      font-weight: bold;
     }
 
     .grid>.row>.item>.title {
@@ -67,12 +72,12 @@
   <div class="grid">
     <div class="row">
 
-      <div class="item"  id="get_audio_upload" style="width: 120px;border-right: 1px solid #eee;">
+      <div class="item"  id="get_audio_upload" style="width: 120px;border-right: 1px solid #eee;background-color: rgb(241, 244, 255);">
         <div class="title">提取音频</div>
         <div class="tip">本地上传</div>
       </div>
 
-      <div class="item"  id="get_audio_qqmusic" style="width: 120px;border-right: 1px solid #eee;">
+      <div class="item"  id="get_audio_qqmusic" style="width: 120px;border-right: 1px solid #eee;background-color: rgb(241, 244, 255);">
         <div class="title">提取音频</div>
         <div class="tip">QQ音乐</div>
       </div>
@@ -80,11 +85,11 @@
 
     <div class="row">
 
-      <div class="item"  id="get_video_upload" style="width: 120px;border-right: 1px solid #eee;">
+      <div class="item"  id="get_video_upload" style="width: 120px;border-right: 1px solid #eee;background-color: rgb(241, 255, 242);">
         <div class="title">提取视频</div>
         <div class="tip">本地上传</div>
       </div>
-      <div class="item"  id="get_video_tx" style="width: 120px;border-right: 1px solid #eee;">
+      <div class="item"  id="get_video_tx" style="width: 120px;border-right: 1px solid #eee;background-color: rgb(241, 255, 242);">
         <div class="title">提取视频</div>
         <div class="tip">腾讯视频</div>
       </div>
@@ -92,11 +97,11 @@
     </div>
     <div class="row">
 
-      <div class="item" id="get_mimi_id" style="border-bottom: 1px solid #eee;">
+      <div class="item" id="get_mimi_id" style="border-bottom: 1px solid #eee;background-color: rgb(252, 255, 241);">
         <div class="title">提取小程序</div>
         <div class="tip">文字小程序</div>
       </div>
-      <div class="item" id="get_open_account_id" style="border-bottom: 1px solid #eee;">
+      <div class="item" id="get_open_account_id" style="border-bottom: 1px solid #eee;background-color: rgb(255, 246, 241);">
         <div class="title">提取公众号</div>
         <div class="tip">公众号id</div>
       </div>
@@ -108,12 +113,12 @@
     </div>
     <div class="row">
 
-      <div class="item" id="get_mimi_card" style="border-bottom: 1px solid #eee;">
+      <div class="item" id="get_mimi_card" style="border-bottom: 1px solid #eee;background-color: rgb(252, 255, 241);">
         <div class="title">提取小程序</div>
         <div class="tip">小程序卡片</div>
       </div>
 
-      <div class="item" id="get_open_account_code" style="border-bottom: 1px solid #eee;">
+      <div class="item" id="get_open_account_code" style="border-bottom: 1px solid #eee;background-color: rgb(255, 246, 241);">
         <div class="title">提取公众号</div>
         <div class="tip">公众号代码</div>
       </div>
