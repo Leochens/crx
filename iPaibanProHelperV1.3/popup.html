@@ -5,15 +5,18 @@
   <meta charset="utf-8" />
   <title>Leochens</title>
   <style>
-    .grid {}
+    .grid {
+      width: 100%;
+    }
 
-    .grid>.row {}
+    .grid>.row {
+      width: 100%;
+    }
 
     .grid>.row>.item {
-      width: 80px;
-      /*height: 80px;*/
+      /* width: 80px; */
       height: 68px;
-      border: 1px solid #eee;
+      /* border: 1px solid #eee; */
       border-right: none;
       border-bottom: none;
       text-align: center;
@@ -31,7 +34,7 @@
     }
 
     .grid>.row>.item:hover {
-      /* background-color: #eee; */
+      background-color: #eee;
       opacity: 1;
       text-decoration: underline;
       font-weight: bold;
@@ -68,10 +71,12 @@
 </head>
 
 <body style="width:246px;min-height:100px;font-size: 0px;">
-  <h3 style="margin:2px;font-size: 18px">iPaiban Pro 小助手v1.3.1</h3>
+  <h3 style="margin:2px;font-size: 18px">iPaiban Pro 小助手v1.4</h3>
   <h5 style="font-size: 10px;color: orangered;margin: 4px 0 6px 4px;">插件若无反应，请刷新页面重试</h5>
-
-  <div class="grid">
+  <div id="root" class="grid">
+    
+  </div>
+  <!-- <div class="grid">
     <div class="row">
 
       <div class="item"  id="get_audio_upload" style="width: 120px;border-right: 1px solid #eee;background-color: rgb(241, 244, 255);">
@@ -142,16 +147,8 @@
         <div class="title">导入代码</div>
         <div class="tip">清空导入 | 局部导入 | 尾部导入</div>
       </div>
-      <!-- <div class="item" id="append_code" style="border-bottom: 1px solid #eee;">
-        <div class="title">尾部插入</div>
-        <div class="tip">插入代码至图文尾部</div>
-      </div>
-      <div class="item" id="insert_place" style="border-bottom: 1px solid #eee;">
-        <div class="title">局部插入</div>
-        <div class="tip small">插入至形如格式${{代码}}</div>
-      </div> -->
     </div>
-  </div>
+  </div> -->
 
 
   <div id="current" style="font-size:14px;text-align: left;margin: 10px 0;"></div>
@@ -164,8 +161,10 @@
     <button class="btn" id="import_code_insert">局部导入</button>
     <button class="btn" id="import_code_append">尾部导入</button>
   </div>
+  <script type="text/javascript" src="./process.js"></script>
   <script type="text/javascript" src="./jquery-1.8.3.js"></script>
   <script type="text/javascript" src="./popup.js"></script>
+
 </body>
 
 </html>
