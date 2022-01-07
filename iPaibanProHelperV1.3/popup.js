@@ -10,7 +10,9 @@ function init() {
 $('#get_audio_upload').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_audio_upload' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_audio_upload'
+  }, function (response) {
     console.log('1111', response);
     const audios = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -44,7 +46,9 @@ $('#get_audio_upload').click(e => {
 $('#get_audio_qqmusic').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_audio_qqmusic' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_audio_qqmusic'
+  }, function (response) {
     console.log(response);
     const audios = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -70,7 +74,9 @@ $('#get_audio_qqmusic').click(e => {
 $('#get_open_account_id').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_open_account_id' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_open_account_id'
+  }, function (response) {
     console.log(response);
     const acc = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -99,7 +105,9 @@ $('#get_open_account_id').click(e => {
 $('#get_open_account_code').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_open_account_code' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_open_account_code'
+  }, function (response) {
     console.log(response);
     const acc = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -128,7 +136,9 @@ $('#get_open_account_code').click(e => {
 $('#get_video_account').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_video_account' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_video_account'
+  }, function (response) {
     console.log(response);
     const acc = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -158,7 +168,9 @@ $('#get_video_account').click(e => {
 $('#get_video_upload').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_video_upload' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_video_upload'
+  }, function (response) {
     console.log(response);
     const videos = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -184,7 +196,9 @@ $('#get_video_upload').click(e => {
 $('#get_video_tx').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_video_tx' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_video_tx'
+  }, function (response) {
     console.log(response);
     const videos = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -212,7 +226,9 @@ $('#get_video_tx').click(e => {
 $('#get_mimi_id').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_mimi_id' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_mimi_id'
+  }, function (response) {
     console.log(response);
     const minis = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -242,7 +258,9 @@ $('#get_mimi_id').click(e => {
 $('#get_mimi_card').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_mimi_card' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_mimi_card'
+  }, function (response) {
     console.log(response);
     const minis = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -270,7 +288,9 @@ $('#get_mimi_card').click(e => {
 $('#get_location').click(e => {
   console.log(document);
   // 要给content-srcipt 发送消息获得当前页面的dom
-  sendMessageToContentScript({ cmd: 'get_location' }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'get_location'
+  }, function (response) {
     console.log(response);
     const items = JSON.parse(response);
     $('#import_code_block').css("display", 'none');
@@ -292,6 +312,33 @@ $('#get_location').click(e => {
     }
   });
 });
+$('#get_red_packet').click(e => {
+  console.log(document);
+  // 要给content-srcipt 发送消息获得当前页面的dom
+  sendMessageToContentScript({
+    cmd: 'get_red_packet'
+  }, function (response) {
+    const items = JSON.parse(response);
+    console.log('提取红包结果',items);
+    $('#import_code_block').css("display", 'none');
+    const content = $('#content');
+    const current = $('#current');
+    init();
+    current.append($(`
+            <div>提取红包封面代码:</div>
+        `))
+
+    for (let i in items) {
+      const red_packet = items[i];
+      const item = $(`<div>
+            <div>序号:<span style="color:orangered">${ red_packet.name}</span> | 请复制完整下方代码↓</div>
+            代码:<textarea rows="6" style="margin-top:4px;display:inline-block;width:235px;outline:none;font-size:10px"  >${red_packet.code}</textarea> 
+            </div>`)
+      content.append(item)
+
+    }
+  });
+});
 
 
 
@@ -303,17 +350,7 @@ $('#show_code_textarea').click(e => {
 })
 
 
-$('#import_code').click(e => {
-  // console.log(document);
-  // 要给content-srcipt 发送消息获得当前页面的dom
-  const value = $('#import_code_area').val();
-  console.log(value);
-  const content = $('#content');
-  content.empty();
-  // if (!value) return alert("请输入代码！");
-  sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
-  });
-});
+
 // 尾部导入
 $('#import_code_append').click(e => {
   // console.log(document);
@@ -323,8 +360,10 @@ $('#import_code_append').click(e => {
   const content = $('#content');
   content.empty();
   // if (!value) return alert("请输入代码！");
-  sendMessageToContentScript({ cmd: 'import_code_append', code: value }, function (response) {
-  });
+  sendMessageToContentScript({
+    cmd: 'import_code_append',
+    code: value
+  }, function (response) {});
 });
 // 局部导入
 $('#import_code_insert').click(e => {
@@ -335,9 +374,12 @@ $('#import_code_insert').click(e => {
   const content = $('#content');
   content.empty();
   // if (!value) return alert("请输入代码！");
-  sendMessageToContentScript({ cmd: 'import_code_insert', code: value }, function (response) {
-  });
+  sendMessageToContentScript({
+    cmd: 'import_code_insert',
+    code: value
+  }, function (response) {});
 });
+
 
 $('#import_code').click(e => {
   // console.log(document);
@@ -347,19 +389,10 @@ $('#import_code').click(e => {
   const content = $('#content');
   content.empty();
   // if (!value) return alert("请输入代码！");
-  sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
-  });
-});
-$('#import_code').click(e => {
-  // console.log(document);
-  // 要给content-srcipt 发送消息获得当前页面的dom
-  const value = $('#import_code_area').val();
-  console.log(value);
-  const content = $('#content');
-  content.empty();
-  // if (!value) return alert("请输入代码！");
-  sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
-  });
+  sendMessageToContentScript({
+    cmd: 'import_code',
+    code: value
+  }, function (response) {});
 });
 $('#clear_code').click(e => {
   // console.log(document);
@@ -367,7 +400,10 @@ $('#clear_code').click(e => {
   init();
 
   const value = '';
-  sendMessageToContentScript({ cmd: 'import_code', code: value }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'import_code',
+    code: value
+  }, function (response) {
     // $('import_code_block').css("display", 'none');
     // alert("清空成功")
   });
@@ -380,7 +416,10 @@ $('#append_code').click(e => {
 
   $('#import_code_block').css("display", 'block');
   const value = '';
-  sendMessageToContentScript({ cmd: 'append_code', code: value }, function (response) {
+  sendMessageToContentScript({
+    cmd: 'append_code',
+    code: value
+  }, function (response) {
     // $('import_code_block').css("display", 'none');
     // alert("清空成功")
   });
@@ -392,7 +431,10 @@ $('#append_code').click(e => {
 
 // 获取当前选项卡ID
 function getCurrentTabId(callback) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function (tabs) {
     if (callback) callback(tabs.length ? tabs[0].id : null);
   });
 }
@@ -411,4 +453,3 @@ function sendMessageToContentScript(message, callback) {
 
 
 // test新功能开发
-

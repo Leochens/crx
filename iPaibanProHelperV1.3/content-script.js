@@ -241,6 +241,25 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse(JSON.stringify(_items));
       break;
     }
+    case 'get_red_packet': {
+      const body = getBody();
+      // 获取到的红包封面代码
+      const items = body.getElementsByClassName("wx-edui-media-wrp custom_select_card_wrp");
+      if (!items.length) return alertMsg("未发现红包封面!");
+      console.log(items);
+      const _items = [];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        console.log(item);
+        if (!item) return alertMsg("未发现红包封面!");
+        const name = i + 1;
+        const code = item.outerHTML;
+        _items.push({ code, name });
+      }
+      console.log(_items);
+      sendResponse(JSON.stringify(_items));
+      break;
+    }
 
     case 'import_code': {
       const body = getBody();

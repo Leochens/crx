@@ -67,6 +67,14 @@ var list = [
             tip: "文字地理位置,"
         }
     ],
+    [
+        {
+            id: "get_red_packet",
+            title: "红包",
+            tip: "红包封面代码",
+            bgColor:'rgb(255, 244, 241)'
+        }
+    ],
     [{
             id: "clear_code",
             title: "清空图文",
