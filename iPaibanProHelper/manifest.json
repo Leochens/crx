@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "iPaiban Pro 小助手",
   "version": "1.4",
-  "description": "使用该插件可以让您便捷的完成提取音视频代码，导入代码到图文等操作。",
+  "description": "使用该插件可以让您便捷的完成提取微信公众平台中音视频等媒体的代码，导入代码到图文等操作。",
   "author": "ZHL",
   "icons": {
     "48": "icon.png",
@@ -14,9 +14,6 @@
     "default_title": "iPaiban Pro 小助手",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "notifications"
-  ],
   "background": {
     "page": "background.html"
   },
