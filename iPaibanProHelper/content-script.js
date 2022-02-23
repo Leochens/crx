@@ -17,6 +17,8 @@ function alertMsg(msg, type) {
   ele.className = 'chrome-plugin-simple-tip slideInLeft';
   if (type === 'success') {
     ele.className = 'chrome-plugin-simple-tip success slideInLeft';
+  } else {
+    ele.className = 'chrome-plugin-simple-tip error slideInLeft';
   }
   ele.style.top = tipCount * 70 + 20 + 'px';
   ele.innerHTML = `<div>${msg}</div>`;
@@ -35,6 +37,10 @@ function alertMsg(msg, type) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log('收到来自 ' + (sender.tab ? "content-script(" + sender.tab.url + ")" : "popup或者background") + ' 的消息：', request);
   switch (request.cmd) {
+    case 'get_img_btn': {
+        return alertMsg("该页面不是微信推文页面，无法提取！");
+      break;
+    }
     case 'get_audio_upload': {
       const body = getBody();
       // 获取到的音频节点信息

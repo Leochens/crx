@@ -35,6 +35,28 @@ $('#get_audio_upload').click(e => {
   });
 });
 
+function alertMsg(msg, type) {
+  msg = msg || '';
+  var ele = document.createElement('div');
+  ele.className = 'chrome-plugin-simple-tip slideInLeft';
+  if (type === 'success') {
+    ele.className = 'chrome-plugin-simple-tip success slideInLeft';
+  } else {
+    ele.className = 'chrome-plugin-simple-tip error slideInLeft';
+  }
+  ele.style.top = tipCount * 70 + 20 + 'px';
+  ele.innerHTML = `<div>${msg}</div>`;
+  document.body.appendChild(ele);
+  ele.classList.add('animated');
+  tipCount++;
+  setTimeout(() => {
+    ele.style.top = '-100px';
+    setTimeout(() => {
+      ele.remove();
+      tipCount--;
+    }, 400);
+  }, 3000);
+}
 
 // $('#aaaa').click(e => {
 //     console.log(document);
@@ -319,7 +341,7 @@ $('#get_red_packet').click(e => {
     cmd: 'get_red_packet'
   }, function (response) {
     const items = JSON.parse(response);
-    console.log('提取红包结果',items);
+    console.log('提取红包结果', items);
     $('#import_code_block').css("display", 'none');
     const content = $('#content');
     const current = $('#current');
@@ -448,6 +470,22 @@ function sendMessageToContentScript(message, callback) {
   });
 }
 
+
+$('#get_img_btn').click(e => {
+  var bg = chrome.extension.getBackgroundPage();
+
+  chrome.tabs.getSelected(null, function (tab) { // 先获取当前页面的tabID
+    // alert(tab.url);
+    if (tab.url.startsWith("https://mp.weixin.qq.com/s/")) {
+      const str = tab.url.split("https://mp.weixin.qq.com/s/")[1];
+      bg.toGetImgPage(str);
+    } else {
+      sendMessageToContentScript({
+        cmd: 'get_img_btn',
+      }, function (response) {});
+    }
+  });
+});
 
 // 模拟主分支bug修复
 

@@ -20,6 +20,11 @@
   color: #FFF;
 }
 
+.chrome-plugin-simple-tip.error {
+  background: rgb(250, 146, 9);
+  color: #FFF;
+}
+
 .animated {
   -webkit-animation-duration: .5s;
   animation-duration: .5s;

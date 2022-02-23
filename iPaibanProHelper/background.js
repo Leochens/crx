@@ -12,3 +12,24 @@ chrome.runtime.onMessage.addListener(
     }
     console.log('Did not receive the response!!!');
   });
+
+chrome.browserAction.onClicked.addListener(function sendData() {
+  console.log("browserAction!!!");
+
+  // url = "http://yoursite.com/yourpage.html?";
+  // var params = [];
+  // for (key in data)
+  //   params.push(encodeURIComponent(key) + "=" + data[key]);
+  // url = url + params.join("&");
+  chrome.tabs.create({
+    url: "http://baidu.com"
+  });
+});
+
+function toGetImgPage(url) {
+  chrome.tabs.create({
+    url:'chrome-extension://' + chrome.runtime.id + '/imgdld/download.html?code='+url
+  });
+
+
+}
