@@ -14,16 +14,16 @@ chrome.runtime.onMessage.addListener(
   });
 
 chrome.browserAction.onClicked.addListener(function sendData() {
-  console.log("browserAction!!!");
+  // console.log("browserAction!!!");
 
   // url = "http://yoursite.com/yourpage.html?";
   // var params = [];
   // for (key in data)
   //   params.push(encodeURIComponent(key) + "=" + data[key]);
   // url = url + params.join("&");
-  chrome.tabs.create({
-    url: "http://baidu.com"
-  });
+  // chrome.tabs.create({
+  //   url: "http://baidu.com"
+  // });
 });
 
 function toGetImgPage(url) {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, script-src * 'unsafe-inline'">
     <title>Document</title>
     <style>
         *{
@@ -38,175 +38,68 @@
         .clearfix:after { 
             clear: both; 
         }
+
+        .dldbtn{
+            border: none;
+            background-color: #333;
+            color: #fff;
+
+            border-radius: 6px;
+            padding: 10px;
+            margin: 0 10px;
+            cursor: pointer;
+            display: none;
+        }
+        .dldbtn:hover{
+            background-color: #666;
+
+        }
+        .errmsg{
+            padding: 10px;
+
+        }
+        #imgs{
+            width: 100vw;
+            margin: auto;
+
+        }   
+        .img-item{
+            /* border:1px solid #ddd;  */
+            box-sizing: border-box;
+            display:inline-block;
+            width:25%;
+            vertical-align:top;
+            padding: 20px;
+            /* margin-right:30px; */
+            /* margin-bottom:30px; */
+        }
+        #counter{
+            font-size: 20px;
+            padding: 20px;
+
+        }
+        .title{
+            font-size: 20px;
+            padding: 10px;
+            font-weight: bold;
+        }
     </style>
-    <script src="js/jszip.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/FileSaver.min.js"></script>
+
 </head>
 <body style="width: 100%;background: #f5f5f5;">
 
     <div style="padding: 0 30px;">
-    <!-- <input  id="wx_url" type="text" name="" placeholder="请输入微信图文链接" value="https://mp.weixin.qq.com/s/hBNxuaWXdelbhTeYrU5rRw"> -->
-    <input id="urls" type="text" name="" placeholder="请输入图片数组" value="">
-    <!-- <button onclick="query()">查询</button> -->
-    <button onclick="download()">下载zip</button>
-    <br>
-
-    <!-- <img id="img1" src="https://mmbiz.qpic.cn/mmbiz_png/6VWJo32xnZpwhyEkmlXliaDTtriazzAOVULThqK5x7CiccT7hovIibIXSAkEff598zib2883VwGXOslU0lCTxcvPHXQ/640?wx_fmt=png"> -->
-    <!-- <img id="img2" src="https://mmbiz.qpic.cn/mmbiz_gif/6VWJo32xnZpwhyEkmlXliaDTtriazzAOVUYegdjJ6y1ehvQXroGCdgsUJJE2sqibYan3XB4auPZj5TUCHtG7SSEZw/640?wx_fmt=gif"> -->
+    <div class="title" >🔜🔜🔜下载微信推文图片🔜🔜🔜</div>
+    <button class="dldbtn"  id="downloadbtn">一键打包下载zip</button>
+    <div id="counter"></div>
+    <div id="imgs">
 
     </div>
-    <script type="text/javascript">
-
-    // https://mp.weixin.qq.com/s/hBNxuaWXdelbhTeYrU5rRw
-
-
-        
-        // http://localhost:4000/api/getImagesFromWXArticle/hBNxuaWXdelbhTeYrU5rRw
-
-        let img_base64
-    
-
-        // async function fetchBase64(){
-        //  return new Promise()
-        // }
-
-
-        async function download(){
-
-            let urls = $('#urls').val()
-
-
-
-            // console.log('urls',urls)
-            urls = JSON.parse(urls)
-
-
-
-
-
-
-
-            let base64_arr = []
-
-
-            let html = ''
-
-            for( let i=0; i<urls.length; i++ ){
-                html += '<img src='+urls[i]+'  style="display:inline-block;width:350px;vertical-align:top;margin-right:30px;margin-bottom:30px;">'
-
-                console.log('一共'+urls.length+'个,当前索引'+i)
-                base64_arr.push( await fetch(urls[i]) )
-            }
-
-
-
-            $('body').append(html)
-
-            zipImages(base64_arr)
-
-
-        }
-
-
-
-        function fetch(url){
-            // console.log(url)
-
-
-            let suffix = ''
-            
-
-            if(url.indexOf('wx_fmt')>-1){
-                suffix = url.substr(url.indexOf('wx_fmt=')+7)   
-            }else{
-                if(url.indexOf('mmbiz_png')>-1){
-                    suffix = 'png'
-                }else if(url.indexOf('mmbiz_gif')>-1){
-                    suffix = 'gif'
-                }else if(url.indexOf('mmbiz_jpg')>-1){
-                    suffix = 'jpg'
-                }else if(url.indexOf('mmbiz_jpeg')>-1){
-                    suffix = 'jpeg'
-                }
-
-            }
-
-            return new Promise((resolve, reject) =>{
-
-                $.ajax( {
-                    url,
-                    xhrFields: {
-                        responseType: 'blob'    // 指定响应数据类型为blob格式
-                    },
-                    // beforeSend: function(request) {
-                    //     request.setRequestHeader("origin","https://www.baidu.com");
-                    //  },
-                    
-
-                })
-                .then(blob => {
-                    let reader = new FileReader(); 
-                    reader.onloadend = function(){
-                      img_base64 = reader.result
-                      img_base64 = img_base64.replace(/^data:image\/(png|jpg|gif|jpeg);base64,/, "")
-                      resolve({
-                        img_base64,
-                        name: suffix
-                      })
-                    };
-                    reader.readAsDataURL(blob);
-                })
-                .catch(console.error);
-
-
-            })
-            
-        }
-
-
-        function zipImages(base64_arr){
-            // 初始化一个zip打包对象
-            var zip = new JSZip();
-            // 创建一个被用来打包的名为Hello.txt的文件
-            // zip.file("Hello.txt", "Hello World\n");
-            // 创建一个名为images的新的文件目录
-            // var img = zip.folder("images");
-
-            // 这个images文件目录中创建一个base64数据为imgData的图像，图像名是smile.gif
-            // img.file("smile.gif", imgData, {base64: true});
-
-            base64_arr.forEach((e,index)=>{
-                // console.log(e.img_base64)
-                zip.file((index+1)+'.'+e.name, e.img_base64, {base64: true});   
-            })
-
-            
-            // 把打包内容异步转成blob二进制格式
-            zip.generateAsync({type:"blob"}).then(function(content) {
-                // content就是blob数据，这里以example.zip名称下载    
-                // 使用了FileSaver.js  
-                saveAs(content, "images.zip");
-            });
-
-            /*
-            最终下载的zip文件包含内容如下：
-            Hello.txt
-            images/
-                smile.gif
-            */
-        }
-
-
-        // function query(){
-        //  let wx_url = $('#wx_url').val()
-        //  $.post("http://localhost:4000/api/getImagesFromWXArticle", { wx_url } )
-        //  .then(data=>{
-        //      console.log(data.data)
-        //  })
-        // }
-
-        
-    </script>
+    <div class="errmsg" style="font-size: 20px;color: #333;" id="errormsg"></div>
+    </div>
+    <script src="js/jszip.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/FileSaver.min.js"></script>
+    <script src="./download.js">    </script>
 </body>
 </html>

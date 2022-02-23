@@ -19,7 +19,9 @@
     "persistent": false
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "https://mmbiz.qpic.cn/",
+    "https://x.ipaiban.com/"
   ],
   "content_scripts": [
     {
