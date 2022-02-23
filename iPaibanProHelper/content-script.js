@@ -10,6 +10,7 @@ function getBody() {
   return body;
 }
 var tipCount = 0;
+
 function alertMsg(msg, type) {
   msg = msg || '';
   var ele = document.createElement('div');
@@ -51,7 +52,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const name = item.getAttribute('name');
         const html = item.outerHTML;
         console.log(name, code);
-        _audios.push({ name, code,html });
+        _audios.push({
+          name,
+          code,
+          html
+        });
       }
       console.log(_audios);
       sendResponse(JSON.stringify(_audios));
@@ -71,7 +76,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const code = item.getAttribute('mid');
         const name = item.getAttribute('music_name');
         const html = item.outerHTML;
-        _audios.push({ name, code,html });
+        _audios.push({
+          name,
+          code,
+          html
+        });
       }
       console.log(_audios);
       sendResponse(JSON.stringify(_audios));
@@ -89,7 +98,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const code = item.getAttribute('data-id');
         if (!code) return alertMsg("未发现公众号!");
         const name = item.getAttribute('data-nickname');
-        _accs.push({ name, code });
+        _accs.push({
+          name,
+          code
+        });
       }
       console.log(_accs);
       sendResponse(JSON.stringify(_accs));
@@ -108,7 +120,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const code = item.outerHTML;
         if (!code) return alertMsg("未发现公众号!");
         const name = item.getAttribute('data-nickname');
-        _accs.push({ name, code });
+        _accs.push({
+          name,
+          code
+        });
       }
       console.log(_accs);
       sendResponse(JSON.stringify(_accs));
@@ -129,7 +144,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         if (!code) return alertMsg("未发现视频号!");
         const name = item.children[0].getAttribute('data-desc');
-        _accs.push({ name, code });
+        _accs.push({
+          name,
+          code
+        });
       }
       console.log(_accs);
       sendResponse(JSON.stringify(_accs));
@@ -147,7 +165,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (!item) return alertMsg("未发现用户上传视频!");
         const code = item.getAttribute('data-mpvid');
         const cover = item.getAttribute('data-cover');
-        _videos.push({ cover, code });
+        _videos.push({
+          cover,
+          code
+        });
       }
       console.log(_videos);
       sendResponse(JSON.stringify(_videos));
@@ -169,7 +190,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const match = /(?<=vid=)\S+/
         const res = match.exec(code);
         if (!res) return alertMsg("未发现腾讯视频或视频格式错误!");
-        _videos.push({ code: res[0] });
+        _videos.push({
+          code: res[0]
+        });
       }
       console.log(_videos);
       sendResponse(JSON.stringify(_videos));
@@ -192,7 +215,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const appid = item.getAttribute('data-miniprogram-appid');
         const path = item.getAttribute('data-miniprogram-path');
         const name = item.getAttribute("data-miniprogram-nickname");
-        _minis.push({ appid, path, name });
+        _minis.push({
+          appid,
+          path,
+          name
+        });
       }
       console.log(_minis);
       sendResponse(JSON.stringify(_minis));
@@ -214,7 +241,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const path = item.getAttribute('data-miniprogram-path');
         const name = item.getAttribute("data-miniprogram-nickname");
         const code = item.outerHTML;
-        _minis.push({ appid, path, name,code });
+        _minis.push({
+          appid,
+          path,
+          name,
+          code
+        });
       }
       console.log(_minis);
       sendResponse(JSON.stringify(_minis));
@@ -235,7 +267,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (!item) return alertMsg("未发现文字地理位置!");
         const name = item.text;
         const code = item.outerHTML;
-        _items.push({ code, name });
+        _items.push({
+          code,
+          name
+        });
       }
       console.log(_items);
       sendResponse(JSON.stringify(_items));
@@ -254,7 +289,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (!item) return alertMsg("未发现红包封面!");
         const name = i + 1;
         const code = item.outerHTML;
-        _items.push({ code, name });
+        _items.push({
+          code,
+          name
+        });
       }
       console.log(_items);
       sendResponse(JSON.stringify(_items));
@@ -295,7 +333,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 
 
-      const match = /<p>({code}[\s\S]*?)<\/p>/g
+      const match = /<p>([{#]code[}#][\s\S]*?)<\/p>/g
       console.log(html.match(match));
       if (html.match(match)) {
         body.innerHTML = html.replace(match, code);
@@ -307,8 +345,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           sendResponse(true);
           alertMsg("操作成功!", 'success');
         } else {
-          sendResponse(false);
-          alertMsg("没有找到标志{code}!");
+          let hasFlag2 = html.indexOf("#code#");
+          if (hasFlag2 != -1) {
+            body.innerHTML = html.replace("#code#", code);
+            sendResponse(true);
+            alertMsg("操作成功!", 'success');
+          } else {
+            sendResponse(false);
+            alertMsg("没有找到标志#code#!");
+          }
         }
 
       }
@@ -318,11 +363,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       break;
     }
 
-    default:
-      {
-        // tip(JSON.stringify(request));
-        sendResponse('我收到你的消息了：' + JSON.stringify(request));
-      }
+    default: {
+      // tip(JSON.stringify(request));
+      sendResponse('我收到你的消息了：' + JSON.stringify(request));
+    }
   }
 
 });
@@ -330,7 +374,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 // 主动发送消息给后台
 // 要演示此功能，请打开控制台主动执行sendMessageToBackground()
 function sendMessageToBackground(message) {
-  chrome.runtime.sendMessage({ greeting: message || '你好，我是content-script呀，我主动发消息给后台！' }, function (response) {
+  chrome.runtime.sendMessage({
+    greeting: message || '你好，我是content-script呀，我主动发消息给后台！'
+  }, function (response) {
     tip('收到来自后台的回复：' + response);
   });
 }

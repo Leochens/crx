@@ -64,7 +64,7 @@ var list = [
         {
             id: "get_location",
             title: "地理位置",
-            tip: "文字地理位置,"
+            tip: "文字地理位置"
         }
     ],
     [
