@@ -483,7 +483,7 @@ $('#get_img_btn').click(e => {
         bg.toGetImgPage(str);
       }
     } else {
-      alert("请在微信页面使用！");
+      alert("请在微信推文页面使用！");
     }
   });
 });
