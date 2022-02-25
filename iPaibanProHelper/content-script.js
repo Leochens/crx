@@ -38,7 +38,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log('收到来自 ' + (sender.tab ? "content-script(" + sender.tab.url + ")" : "popup或者background") + ' 的消息：', request);
   switch (request.cmd) {
     case 'get_img_btn': {
-        return alertMsg("该页面不是微信推文页面，无法提取！");
+      sendResponse(false);
+      return alertMsg("该页面不是微信推文页面，无法提取！");
       break;
     }
     case 'get_audio_upload': {

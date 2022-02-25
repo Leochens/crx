@@ -472,17 +472,18 @@ function sendMessageToContentScript(message, callback) {
 
 
 $('#get_img_btn').click(e => {
-  var bg = chrome.extension.getBackgroundPage();
 
   chrome.tabs.getSelected(null, function (tab) { // 先获取当前页面的tabID
     // alert(tab.url);
     if (tab.url.startsWith("https://mp.weixin.qq.com/s/")) {
       const str = tab.url.split("https://mp.weixin.qq.com/s/")[1];
-      bg.toGetImgPage(str);
+      var bg = chrome.extension.getBackgroundPage();
+      if (bg) {
+
+        bg.toGetImgPage(str);
+      }
     } else {
-      sendMessageToContentScript({
-        cmd: 'get_img_btn',
-      }, function (response) {});
+      alert("请在微信页面使用！");
     }
   });
 });

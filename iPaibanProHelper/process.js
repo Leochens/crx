@@ -32,13 +32,13 @@ var list = [
             id: "get_mimi_id",
             title: "提取小程序",
             tip: "文字小程序",
-            bgColor:'rgb(252, 255, 241)'
+            bgColor: 'rgb(252, 255, 241)'
         },
         {
             id: "get_open_account_id",
             title: "提取公众号",
             tip: "公众号id",
-            bgColor:'rgb(255, 246, 241)'
+            bgColor: 'rgb(255, 246, 241)'
 
         },
         {
@@ -53,13 +53,13 @@ var list = [
             id: "get_mimi_card",
             title: "提取小程序",
             tip: "小程序卡片",
-            bgColor:'rgb(252, 255, 241)'
+            bgColor: 'rgb(252, 255, 241)'
         },
         {
             id: "get_open_account_code",
             title: "提取公众号",
             tip: "公众号代码",
-            bgColor:'rgb(255, 246, 241)'
+            bgColor: 'rgb(255, 246, 241)'
         },
         {
             id: "get_location",
@@ -67,14 +67,12 @@ var list = [
             tip: "文字地理位置"
         }
     ],
-    [
-        {
-            id: "get_red_packet",
-            title: "红包",
-            tip: "红包封面代码",
-            bgColor:'rgb(255, 244, 241)'
-        }
-    ],
+    [{
+        id: "get_red_packet",
+        title: "红包",
+        tip: "红包封面代码",
+        bgColor: 'rgb(255, 244, 241)'
+    }],
     [{
             id: "clear_code",
             title: "清空图文",
@@ -90,7 +88,7 @@ var list = [
 // 获取渲染根组件
 const root = document.getElementById("root");
 
-function renderItem(col,itemObj) {
+function renderItem(col, itemObj) {
 
     var title = document.createElement('div');
     title.className = 'title'
@@ -114,10 +112,12 @@ function renderRow(list) {
         col.style.backgroundColor = item.bgColor;
         col.style.width = (100 / count) + '%';
         col.id = item.id;
-        renderItem(col,item);
+        renderItem(col, item);
         row.append(col);
     }
-    root.append(row);
+    if (root) {
+        root.append(row);
+    }
 }
 
 function load() {
